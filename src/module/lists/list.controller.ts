@@ -67,7 +67,10 @@ listController.post('/', Auth, async (req: Request, res: Response) => {
       .where('list.boardId = :boardId', { boardId })
       .getRawOne();
 
-    const nextPosition = (maxPositionResult.maxPosition || 0) + 1;
+    const nextPosition =
+      maxPositionResult.maxPosition != null
+        ? maxPositionResult.maxPosition + 1
+        : 0;
 
     const list = await listRepository.save({
       title,

@@ -67,7 +67,10 @@ cardController.post('/', Auth, async (req: Request, res: Response) => {
       .where('card.listId = :listId', { listId })
       .getRawOne();
 
-    const nextPosition = (maxPositionResult.maxPosition || 0) + 1;
+    const nextPosition =
+      maxPositionResult.maxPosition != null
+        ? maxPositionResult.maxPosition + 1
+        : 0;
 
     const card = await cardRepository.save({
       userId: req.currentUser.id,
